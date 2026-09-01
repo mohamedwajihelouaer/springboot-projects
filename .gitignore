@@ -1,0 +1,58 @@
+# ==========================================
+# Build Output (Maven & Gradle)
+# ==========================================
+# Removing the trailing slash makes exclusions on the path
+target/
+build/
+.gradle/
+out/
+bin/
+
+# ==========================================
+# IDEs & Editors
+# ==========================================
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Eclipse / Spring Tool Suite
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+.sts4-cache/
+
+# VS Code
+.vscode/
+
+# ==========================================
+# Logs & Temp Files
+# ==========================================
+*.log
+*.tmp
+*.temp
+hs_err_pid*
+replay_pid*
+
+# ==========================================
+# OS Generated Files
+# ==========================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# ==========================================
+# Maven / Gradle Wrappers 
+# ==========================================
+# (Optional: Ignore wrapper JARs if you don't want binaries in your repo. 
+# Comment these out if you want build portability across machines)
+# .mvn/wrapper/maven-wrapper.jar
+# gradle/wrapper/gradle-wrapper.jar
