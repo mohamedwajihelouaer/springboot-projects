@@ -16,6 +16,30 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
+    <dependencies>
+        <!-- Jakarta XML Binding API (Required for compilation) -->
+        <dependency>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+        </dependency>
+
+        <!-- JAXB Runtime Implementation (Required for execution/runtime) -->
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.woodstox</groupId>
+            <artifactId>woodstox-core-asl</artifactId>
+            <version>4.4.1</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+
 
     <build>
         <plugins>
@@ -33,7 +57,7 @@
                 </executions>
                 <configuration>
                     <!-- The package of your generated sources -->
-                    <packageName>com.jyx.library.model</packageName>
+                    <packageName>com.jyx.library.generated.model</packageName>
                     <sources>
                         <source>src/main/resources/xsd</source>
                     </sources>

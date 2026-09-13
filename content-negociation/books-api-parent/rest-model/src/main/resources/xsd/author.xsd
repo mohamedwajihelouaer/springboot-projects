@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with Liquid Technologies Online Tools 1.0 (https://www.liquid-technologies.com) -->
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="AuthorList" type="AuthorList"/>
+    <xs:complexType name="AuthorDTO">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long" />
+            <xs:element name="firstName" type="xs:string" />
+            <xs:element name="lastName" type="xs:string" />
+            <xs:element name="email" type="xs:string" />
+            <xs:element name="phone" type="xs:string" />
+            <xs:element name="address" type="xs:string" />
+            <xs:element name="birthDate" type="xs:string" />
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="AuthorList">
+        <xs:sequence>
+            <xs:element type="AuthorDTO" name="authors" maxOccurs="unbounded" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
