@@ -35,7 +35,7 @@ public class DBSeederService {
             Book uniqueBook = Book.builder()
                     .title(faker.book().title())
                     // Appending the loop index guarantees 100% uniqueness for your ISBN business key
-                    .isbn(faker.code().isbn13(true))
+                    .isbn("")
                     .publishDate(LocalDate.now().minusDays(faker.number().numberBetween(1, 10000)))
                     .price(uniquePrice)
                     .build();
