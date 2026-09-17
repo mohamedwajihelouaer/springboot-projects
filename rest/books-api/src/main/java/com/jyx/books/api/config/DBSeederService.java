@@ -2,31 +2,57 @@ package com.jyx.books.api.config;
 
 import com.jyx.books.api.entity.Book;
 import com.jyx.books.api.entity.Price;
+import com.jyx.books.api.model.BookRecord;
 import com.jyx.books.api.repository.BookRepository;
+import com.jyx.books.api.service.BookCsvService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.datafaker.Faker;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ResourceUtils;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class DBSeederService {
 
+    private final BookCsvService bookCsvService;
 
     @Bean
-    public CommandLineRunner init(BookRepository bookRepository) {
+    public CommandLineRunner init(BookRepository bookRepository) throws FileNotFoundException {
 
-        if (!bookRepository.findAll().isEmpty()) {
-            bookRepository.deleteAll();
-        }
 
         return args -> {
+
+
+                bookRepository.deleteAll();
+
+                File file = ResourceUtils.getFile("classpath:csvdata/books.csv");
+                List<BookRecord> records = bookCsvService.convertToCsv(file);
+
+                List<Book> db = records.stream().map(bookRecord -> Book.builder()
+//                        .id(bookRecord.getId())
+                        .title(bookRecord.getTitle())
+                        .publishDate(bookRecord.getPublishDate())
+                        .isbn(bookRecord.getIsbn())
+                        .price(new Price(bookRecord.getPrice(), bookRecord.getCurrencyCode()))
+                        .build()).toList();
+
+                bookRepository.saveAll(db);
+
+
+
+
             Faker faker = new Faker();
 
             Set<Book>  bookSet = new HashSet<>();
@@ -79,4 +105,6 @@ public class DBSeederService {
         // Generate a random price between 5.00 and 150.00
         return BigDecimal.valueOf(faker.number().randomDouble(2, 5, 150));
     }
+
+
 }

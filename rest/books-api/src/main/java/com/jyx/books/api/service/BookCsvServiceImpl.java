@@ -2,6 +2,7 @@ package com.jyx.books.api.service;
 
 import com.jyx.books.api.model.BookRecord;
 import com.opencsv.bean.CsvToBeanBuilder;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -10,6 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class BookCsvServiceImpl implements BookCsvService {
     @Override
     public List<BookRecord> convertToCsv(File file) {
