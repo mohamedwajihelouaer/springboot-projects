@@ -22,27 +22,32 @@ public class DBSeederService {
     @Bean
     public CommandLineRunner init(BookRepository bookRepository) {
 
+        if (!bookRepository.findAll().isEmpty()) {
+            bookRepository.deleteAll();
+        }
+
         return args -> {
             Faker faker = new Faker();
 
             Set<Book>  bookSet = new HashSet<>();
 
-            Price uniquePrice = new Price(
-                    // Generate a random price between 5.00 and 150.00
-                    BigDecimal.valueOf(faker.number().randomDouble(2, 5, 150)),
-                    faker.money().currencyCode()
-            );
+            Price uniquePrice = new Price(generatePrice(faker), "EUR");
             Book uniqueBook = Book.builder()
                     .title(faker.book().title())
-                    // Appending the loop index guarantees 100% uniqueness for your ISBN business key
-                    .isbn("")
+                    .isbn("979-0-66666-777-8")
                     .publishDate(LocalDate.now().minusDays(faker.number().numberBetween(1, 10000)))
                     .price(uniquePrice)
                     .build();
 
+            if (!bookRepository.existsByIsbn("979-0-66666-777-8")) {
+                Book bookForTest = bookRepository.save(uniqueBook);
+                log.info("Book for test has been saved: {}", bookForTest);
+            } else {
+                log.info("Book for test already exists. Skipping insertion.");
+            }
 
 
-            while (bookSet.size() < 1000) {
+            while (bookSet.size() < 3) {
                 Price price = new Price(
                         // Generate a random price between 5.00 and 150.00
                         BigDecimal.valueOf(faker.number().randomDouble(2, 5, 150)),
@@ -56,7 +61,10 @@ public class DBSeederService {
                         .price(price)
                         .build();
 
-                bookSet.add(book);
+
+                if (! bookRepository.existsByIsbn(book.getIsbn())) {
+                    bookSet.add(book);
+                }
             }
 
             bookRepository.saveAll(bookSet);
@@ -65,5 +73,10 @@ public class DBSeederService {
 
 
         };
+    }
+
+    private BigDecimal generatePrice(Faker faker) {
+        // Generate a random price between 5.00 and 150.00
+        return BigDecimal.valueOf(faker.number().randomDouble(2, 5, 150));
     }
 }

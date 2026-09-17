@@ -76,6 +76,10 @@
         </dependency>
 
         <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-mysql</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
@@ -135,8 +139,8 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${org.apache.maven.plugins.surefire.version}</version>
                 <configuration>
-                    <!-- The @{...} syntax updates the argLine property created by the dependency plugin -->
-                    <argLine>-javaagent:@{org.mockito:mockito-core:jar}</argLine>
+                    <!-- Append the mockito agent to the existing argLine created by jacoco -->
+                    <argLine>@{argLine} -javaagent:${org.mockito:mockito-core:jar}</argLine>
                 </configuration>
             </plugin>
             <plugin>
@@ -187,6 +191,19 @@
                 </executions>
             </plugin>
 
+            <!-- Flyway Plugin -->
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <configuration>
+                    <url>jdbc:mysql://localhost:3306/bookshop?useSSL=false&amp;serverTimezone=UTC&amp;allowPublicKeyRetrieval=true</url>
+                    <!--suppress UnresolvedMavenProperty -->
+                    <user>${env.DB_USERNAME}</user>
+                    <!--suppress UnresolvedMavenProperty -->
+                    <password>${env.DB_PASSWORD}</password>
+                </configuration>
+            </plugin>
+
             <!-- JaCoCo Plugin -->
             <plugin>
                 <groupId>org.jacoco</groupId>
@@ -233,7 +250,6 @@
                 <configuration>
                     <excludes>
                         <exclude>**/BooksApiApplication.class</exclude>
-                        <exclude>**/dto/**</exclude>
                     </excludes>
                 </configuration>
             </plugin>

@@ -98,30 +98,65 @@ class BookRepositoryTest {
     }
 
     @Test
+    @Sql("/insert-books.sql")
     void findByPrice_ValueBetween() {
+        var minPrice = new BigDecimal("54.00");
+        var maxPrice = new BigDecimal("56.00");
+
+        List<Book> books = bookRepository.findByPrice_ValueBetween(minPrice, maxPrice);
+        assertThat(books.size()).isEqualTo(1);
+        assertThat(books.getFirst().getIsbn()).isEqualTo("9780134685991");
     }
 
     @Test
+    @Sql("/insert-books.sql")
     void findByPrice_ValueGreaterThan() {
+        var minPrice = new BigDecimal("54.00");
+
+        List<Book> books = bookRepository.findByPrice_ValueGreaterThan(minPrice);
+        assertThat(books.size()).isEqualTo(1);
+        assertThat(books.getFirst().getIsbn()).isEqualTo("9780134685991");
     }
 
     @Test
+    @Sql("/insert-books.sql")
     void findByPrice_ValueLessThan() {
+        var minPrice = new BigDecimal("56.00");
+        List<Book> books = bookRepository.findByPrice_ValueLessThan(minPrice);
+        assertThat(books.size()).isEqualTo(3);
     }
 
     @Test
+    @Sql("/insert-books.sql")
     void findByPrice_ValueGreaterThanEqual() {
+        var minPrice = new BigDecimal("55.00");
+        List<Book> books = bookRepository.findByPrice_ValueGreaterThanEqual(minPrice);
+        assertThat(books.size()).isEqualTo(1);
     }
 
     @Test
+    @Sql("/insert-books.sql")
     void findByPrice_ValueLessThanEqual() {
+        var minPrice = new BigDecimal("55.00");
+        List<Book> books = bookRepository.findByPrice_ValueLessThanEqual(minPrice);
+        assertThat(books.size()).isEqualTo(3);
     }
 
     @Test
+    @Sql("/insert-books.sql")
     void findByPublishDate() {
+        LocalDate publishDate = LocalDate.of(2017, 12, 27);
+        List<Book> books = bookRepository.findByPublishDate(publishDate);
+        assertThat(books.size()).isEqualTo(1);
     }
 
     @Test
+    @Sql("/insert-books.sql")
     void findByPublishDateBetween() {
+        LocalDate earliestPublishDate = LocalDate.of(1992, 12, 17);
+        LocalDate latestPublishDate = LocalDate.of(2019, 12, 17);
+
+        List<Book> books = bookRepository.findByPublishDateBetween(earliestPublishDate, latestPublishDate);
+        assertThat(books.size()).isEqualTo(3);
     }
 }
