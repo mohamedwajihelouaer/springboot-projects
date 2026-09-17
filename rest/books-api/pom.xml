@@ -33,6 +33,7 @@
         <org.apache.maven.plugins.version>3.6.1</org.apache.maven.plugins.version>
         <org.apache.maven.plugins.surefire.version>3.2.5</org.apache.maven.plugins.surefire.version>
         <net.datafaker.version>2.7.0</net.datafaker.version>
+        <com.opencsv.version>5.9</com.opencsv.version>
     </properties>
     <dependencies>
         <!--	clean DTOs Mapping handler	-->
@@ -40,6 +41,13 @@
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
             <version>${org.mapstruct.version}</version>
+        </dependency>
+
+        <!-- CSV Processor -->
+        <dependency>
+            <groupId>com.opencsv</groupId>
+            <artifactId>opencsv</artifactId>
+            <version>${com.opencsv.version}</version>
         </dependency>
 
         <!--  Test Purposes -->

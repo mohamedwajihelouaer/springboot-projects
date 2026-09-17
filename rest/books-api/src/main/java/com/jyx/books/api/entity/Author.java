@@ -24,8 +24,6 @@ public class Author {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
-
     @NotBlank
     @NotNull
     @Size(min = 2, max = 100)
@@ -58,6 +56,8 @@ public class Author {
     @NotNull
     private String address;
 
-//    @Version
-//    private Long version;
+    // migration test
+    @Column(length = 255, nullable = false, name = "blog_url")
+    private String blogUrl;
+
 }
